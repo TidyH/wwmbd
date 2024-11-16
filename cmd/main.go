@@ -1,7 +1,7 @@
 package main
 
 import (
-	"internal/ui"
+	"github.com/TidyH/wwmbd/ui"
 )
 
 func main() {
