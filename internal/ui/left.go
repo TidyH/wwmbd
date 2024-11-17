@@ -1,13 +1,16 @@
 package ui
 
 import (
-	"mburry_stonks/internal/config"
-	"mburry_stonks/internal/finance"
+	"fmt"
+	"wwmbd/internal/finance"
+	"wwmbd/internal/internal/config"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
 )
 
-func newList() *widget.List {
+func newList(a *App) *widget.List {
 	data := config.StockData
 	list := widget.NewList(
 		func() int {
@@ -31,7 +34,7 @@ func newList() *widget.List {
 				}
 
 				labelPrice := widget.NewLabel(fmt.Sprintf("Current price is: $%.2f", tickerQuote.RegularMarketPrice))
-				w4 := config.NewWindow(ticker)
+				w4 := a.a.NewWindow(ticker)
 				w4.Resize(fyne.Size{Width: 400, Height: 200})
 				w4.SetContent(labelPrice)
 				w4.Show()
