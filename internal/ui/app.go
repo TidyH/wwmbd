@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
 )
 
 type App struct {
@@ -19,12 +20,16 @@ func NewApp() *App {
 	w.Resize(fyne.Size{Width: 1024, Height: 800})
 
 	// Set up the UI components and layout here
+	middleGrid := &MiddleGrid{
+		Container: container.New(layout.NewGridLayout(2)),
+	}
+
 	top := NewTop()
-	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout())
+	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout(middleGrid, &App{a: a}))
 
 	left := newList()
 
-	mainContent := container.NewBorder(topContent, nil, left, nil, nil)
+	mainContent := container.NewBorder(topContent, nil, left, nil, middleGrid)
 
 	w.SetContent(mainContent)
 
