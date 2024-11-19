@@ -22,7 +22,9 @@ func NewApp() *App {
 	top := NewTop()
 	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout())
 
-	mainContent := container.NewBorder(topContent, nil, nil, nil, nil)
+	left := newList()
+
+	mainContent := container.NewBorder(topContent, nil, left, nil, nil)
 
 	w.SetContent(mainContent)
 
