@@ -1,18 +1,21 @@
 package ui
 
 import (
+	"image/color"
+	"wwmbd/internal/finance"
+
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
 
 type LabelTop struct {
 	label *widget.Label
-	top   fyne.Canvas
 }
 
 func NewLabelTop() *LabelTop {
-	l := widget.NewLabel("Search for stoock ticker")
+	l := widget.NewLabel("Search for stock ticker")
 	return &LabelTop{label: l}
 }
 
@@ -24,7 +27,6 @@ func (lt *LabelTop) Layout() *fyne.Container {
 
 type EntryTop struct {
 	entry *widget.Entry
-	top   fyne.Canvas
 }
 
 func NewEntryTop() *EntryTop {
@@ -32,9 +34,22 @@ func NewEntryTop() *EntryTop {
 	return &EntryTop{entry: e}
 }
 
-func (et *EntryTop) Layout() *fyne.Container {
+func (et *EntryTop) Layout(mg *fyne.Container) *fyne.Container {
 	entry := widget.NewEntry()
 	entry.SetPlaceHolder("Enter Stock Ticker")
+
+	entry.OnSubmitted = func(text string) {
+		newQuote, err := finance.GetTickerQuote(text)
+
+		if err != nil {
+			panic((err))
+		}
+
+		report := canvas.NewText(newQuote.FullExchangeName, color.Black)
+		obj := container.NewWithoutLayout(report)
+		mg.Add(obj)
+	}
+
 	c := container.NewVBox()
 	c.Add(entry)
 	return c
@@ -43,7 +58,6 @@ func (et *EntryTop) Layout() *fyne.Container {
 type Top struct {
 	labelTop *LabelTop
 	entryTop *EntryTop
-	top      fyne.Canvas
 }
 
 func NewTop() *Top {
