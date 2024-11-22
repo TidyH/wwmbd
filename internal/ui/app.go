@@ -20,12 +20,10 @@ func NewApp() *App {
 	w.Resize(fyne.Size{Width: 1024, Height: 800})
 
 	// Set up the UI components and layout here
-	middleGrid := &MiddleGrid{
-		Container: container.New(layout.NewGridLayout(2)),
-	}
+	middleGrid := container.New(layout.NewGridLayout(2))
 
 	top := NewTop()
-	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout(middleGrid, &App{a: a}))
+	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout(middleGrid))
 
 	left := newList()
 
