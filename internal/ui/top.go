@@ -1,11 +1,9 @@
 package ui
 
 import (
-	"image/color"
 	"wwmbd/internal/finance"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
@@ -45,8 +43,11 @@ func (et *EntryTop) Layout(mg *fyne.Container) *fyne.Container {
 			panic((err))
 		}
 
-		report := canvas.NewText(newQuote.FullExchangeName, color.Black)
-		obj := container.NewWithoutLayout(report)
+		// report := canvas.NewText(newQuote.FullExchangeName, color.Black)
+		// obj := container.NewWithoutLayout(report)
+		// obj := container.New(layout.NewVBoxLayout(), finance.PrettyTickerData(*newQuote))
+		obj := finance.PrettyTickerData(*newQuote)
+
 		mg.Add(obj)
 	}
 
