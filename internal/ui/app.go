@@ -20,14 +20,15 @@ func NewApp() *App {
 	w.Resize(fyne.Size{Width: 1024, Height: 800})
 
 	// Set up the UI components and layout here
-	middleGrid := container.New(layout.NewGridLayout(2))
+	middleGrid := container.New(layout.NewGridWrapLayout(fyne.NewSize(450, 250))) // size is found by feel, can i find this automatically?
+	middleGridScroll := container.NewVScroll(middleGrid)
 
 	top := NewTop()
 	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout(middleGrid))
 
 	left := newList()
 
-	mainContent := container.NewBorder(topContent, nil, left, nil, middleGrid)
+	mainContent := container.NewBorder(topContent, nil, left, nil, middleGridScroll)
 
 	w.SetContent(mainContent)
 
