@@ -3,6 +3,7 @@ package finance
 import (
 	"fmt"
 	"strings"
+	"wwmbd/helpers"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
@@ -28,12 +29,15 @@ func PrettyTickerData(tickerQuote finance.Quote) *widget.Table {
 		{"AverageDailyVolume3Month", fmt.Sprintf("%d", tickerQuote.AverageDailyVolume3Month)},
 	}
 
+	columnOneLength := helpers.LongestStringInColumn(data, 0)
+
 	list := widget.NewTable(
 		func() (int, int) {
 			return len(data), len(data[0])
 		},
 		func() fyne.CanvasObject {
-			return widget.NewLabel("Stock Snapshot")
+
+			return widget.NewLabel(columnOneLength)
 		},
 		func(i widget.TableCellID, o fyne.CanvasObject) {
 			o.(*widget.Label).SetText(data[i.Row][i.Col])

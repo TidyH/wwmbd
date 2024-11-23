@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"wwmbd/helpers"
 	"wwmbd/internal/internal/config"
 
 	"fyne.io/fyne/v2"
@@ -9,19 +10,13 @@ import (
 
 func newList() *widget.List {
 	data := config.StockData
+	longestItem := helpers.LongestString(data)
 
 	list := widget.NewList(
 		func() int {
 			return len(data)
 		},
 		func() fyne.CanvasObject {
-			longestItem := data[0]
-			for i := 1; i < len(data); i++ {
-				if len(data[i]) > len(longestItem) {
-					longestItem = data[i]
-				}
-			}
-
 			return widget.NewButton(longestItem, nil) // i don't know how else to fit the text...
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
