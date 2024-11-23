@@ -16,10 +16,8 @@ func GetTickerQuote(ticker string) (*finance.Quote, error) {
 	return quote.Get(ticker)
 }
 
-// Best way to display information from the Quote
+// Search for best way to display information from the Quote
 func PrettyTickerData(tickerQuote finance.Quote) *widget.Table {
-	// thinking we create a list
-	// This is surface level data, what do we care about?
 	data := [][]string{
 		{"Symbol", tickerQuote.Symbol},
 		{"Shortname", tickerQuote.ShortName},

@@ -43,11 +43,7 @@ func (et *EntryTop) Layout(mg *fyne.Container) *fyne.Container {
 			panic((err))
 		}
 
-		// report := canvas.NewText(newQuote.FullExchangeName, color.Black)
-		// obj := container.NewWithoutLayout(report)
-		// obj := container.New(layout.NewVBoxLayout(), finance.PrettyTickerData(*newQuote))
 		obj := finance.PrettyTickerData(*newQuote)
-
 		mg.Add(obj)
 	}
 
