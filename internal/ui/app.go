@@ -24,7 +24,7 @@ func NewApp() *App {
 	middleGridScroll := container.NewVScroll(middleGrid)
 
 	top := NewTop()
-	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout(middleGrid))
+	topContent := container.NewVBox(top.labelTop.Layout(), top.entryTop.Layout(middleGrid, &App{a: a}))
 
 	left := newList()
 

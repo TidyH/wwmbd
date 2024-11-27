@@ -32,7 +32,7 @@ func NewEntryTop() *EntryTop {
 	return &EntryTop{entry: e}
 }
 
-func (et *EntryTop) Layout(mg *fyne.Container) *fyne.Container {
+func (et *EntryTop) Layout(mg *fyne.Container, a *App) *fyne.Container {
 	entry := widget.NewEntry()
 	entry.SetPlaceHolder("Enter Stock Ticker")
 
@@ -45,6 +45,10 @@ func (et *EntryTop) Layout(mg *fyne.Container) *fyne.Container {
 
 		obj := finance.PrettyTickerData(*newQuote)
 		mg.Add(obj)
+
+		br := finance.BurryReport{StockData: *newQuote, A: a.a}
+		br.CreateReport()
+
 	}
 
 	c := container.NewVBox()
