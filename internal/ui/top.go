@@ -47,8 +47,7 @@ func (et *EntryTop) Layout(mg *fyne.Container, a *App) *fyne.Container {
 		mg.Add(obj)
 
 		br := finance.BurryReport{StockData: *newQuote, A: a.a}
-		br.CreateReport()
-
+		br.CreateReport() // TODO: This needs to be hidden, need to find expand report with more details
 	}
 
 	c := container.NewVBox()
