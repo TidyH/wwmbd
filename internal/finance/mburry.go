@@ -15,9 +15,10 @@ import (
 	myChart "github.com/wcharczuk/go-chart/v2"
 )
 
+// S stands for Stonks ;)
 type BurryReport struct {
-	StockData finance.Quote
-	A         fyne.App
+	S *StockFinancials
+	A fyne.App
 }
 
 func NewReport(a fyne.App, stockData *finance.Quote) fyne.Window {
@@ -26,14 +27,19 @@ func NewReport(a fyne.App, stockData *finance.Quote) fyne.Window {
 }
 
 func (r *BurryReport) CreateReport() {
-	w := r.A.NewWindow("The Burry Report")
-	l := widget.NewLabel(r.StockData.ShortName)
-
-	graph := r.createGraph(datetime.Datetime{Month: 1, Day: 1, Year: 2017}, datetime.Datetime{Month: 1, Day: 1, Year: 2018}, datetime.OneDay) // TODO: need to allow user query or trailing 52 week period
-	graph.SetMinSize(fyne.NewSize(600, 400))
 	content := container.NewVBox()
+	w := r.A.NewWindow("The Burry Report")
+	l := widget.NewLabel(r.S.QuoteData.ShortName)
+
+	// Opening Graph, trailing 52 week performance
+	timeNow := datetime.Datetime{Month: int(time.Now().Month()), Day: time.Now().Day(), Year: time.Now().Year()}
+	timeLastYear := datetime.Datetime{Month: int(time.Now().Month()), Day: time.Now().Day(), Year: time.Now().AddDate(-1, 0, 0).Year()}
+	graph := r.createGraph(timeLastYear, timeNow, datetime.OneDay)
+	graph.SetMinSize(fyne.NewSize(600, 400))
 	content.Add(l)
 	content.Add(graph)
+
+	// EVEBITDA := r.calcEVEBITDA()
 
 	w.SetContent(content)
 	w.Show()
@@ -42,10 +48,9 @@ func (r *BurryReport) CreateReport() {
 func (r *BurryReport) createGraph(start datetime.Datetime, end datetime.Datetime, interval datetime.Interval) *canvas.Image {
 	var prices []decimal.Decimal
 	var dates []time.Time
-	// var dates []float64
 
 	chartConfig := chart.Params{
-		Symbol:   r.StockData.Symbol,
+		Symbol:   r.S.QuoteData.Symbol,
 		Start:    &start,
 		End:      &end,
 		Interval: interval,
@@ -81,7 +86,7 @@ func (r *BurryReport) createGraph(start datetime.Datetime, end datetime.Datetime
 
 	writer := &myChart.ImageWriter{}
 	graphConfig.Render(myChart.PNG, writer)
-	graphConfig.Title = r.StockData.ShortName
+	graphConfig.Title = r.S.QuoteData.ShortName
 
 	img, err := writer.Image()
 	if err != nil {
@@ -90,3 +95,8 @@ func (r *BurryReport) createGraph(start datetime.Datetime, end datetime.Datetime
 
 	return canvas.NewImageFromImage(img)
 }
+
+// EV = market_cap + total_debt - cash
+// func (r *BurryReport) calcEVEBITDA() *string {
+// 	marketCap := r.S.FinancialData.MarketCap
+// }

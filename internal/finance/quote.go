@@ -8,12 +8,23 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
 	"github.com/piquette/finance-go"
+	"github.com/piquette/finance-go/equity"
 	"github.com/piquette/finance-go/quote"
 )
 
-func GetTickerQuote(ticker string) (*finance.Quote, error) {
+type StockFinancials struct {
+	QuoteData     *finance.Quote
+	FinancialData *finance.Equity
+}
+
+func (s *StockFinancials) SetQuotes(ticker string) {
 	ticker = strings.TrimSpace(strings.ToUpper(ticker))
-	return quote.Get(ticker)
+	s.QuoteData, _ = quote.Get(ticker)
+}
+
+func (s *StockFinancials) SetEquities(ticker string) {
+	ticker = strings.TrimSpace(strings.ToUpper(ticker))
+	s.FinancialData, _ = equity.Get(ticker)
 }
 
 // Search for best way to display information from the Quote

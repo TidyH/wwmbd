@@ -37,16 +37,15 @@ func (et *EntryTop) Layout(mg *fyne.Container, a *App) *fyne.Container {
 	entry.SetPlaceHolder("Enter Stock Ticker")
 
 	entry.OnSubmitted = func(text string) {
-		newQuote, err := finance.GetTickerQuote(text)
+		stonk := &finance.StockFinancials{}
+		stonk.SetQuotes(text)
+		stonk.SetEquities(text)
 
-		if err != nil {
-			panic((err))
-		}
-
-		obj := finance.PrettyTickerData(*newQuote)
+		obj := finance.PrettyTickerData(*stonk.QuoteData)
 		mg.Add(obj)
 
-		br := finance.BurryReport{StockData: *newQuote, A: a.a}
+		br := finance.BurryReport{S: stonk, A: a.a}
+		// spark line image for the button??
 		br.CreateReport() // TODO: This needs to be hidden, need to find expand report with more details
 	}
 
