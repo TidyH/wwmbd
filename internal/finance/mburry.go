@@ -97,6 +97,6 @@ func (r *BurryReport) createGraph(start datetime.Datetime, end datetime.Datetime
 }
 
 // EV = market_cap + total_debt - cash
-// func (r *BurryReport) calcEVEBITDA() *string {
+// func (r *BurryReport) calcEVEBITDA() *float64 {
 // 	marketCap := r.S.FinancialData.MarketCap
 // }
