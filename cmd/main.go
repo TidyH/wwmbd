@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+	println("Starting App")
 	app := ui.NewApp()
 	app.Run()
 }

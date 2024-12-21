@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"wwmbd/internal/scrapers"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
@@ -28,6 +30,7 @@ func NewReport(a fyne.App, stockData *finance.Quote) fyne.Window {
 
 func (r *BurryReport) CreateReport() {
 	content := container.NewVBox()
+	stats := scrapers.NewStatistics(r.S.QuoteData.Symbol)
 	w := r.A.NewWindow("The Burry Report")
 	l := widget.NewLabel(r.S.QuoteData.ShortName)
 
@@ -39,7 +42,10 @@ func (r *BurryReport) CreateReport() {
 	content.Add(l)
 	content.Add(graph)
 
-	// EVEBITDA := r.calcEVEBITDA()
+	// EVEBITDA display
+	EVEBITDA := fmt.Sprintf("Enterprise Value / EBITDA: %s", stats.Rows[0].EnterpriseValueEBITDA)
+	EVEBITDAContent := widget.NewLabel(EVEBITDA)
+	content.Add(EVEBITDAContent)
 
 	w.SetContent(content)
 	w.Show()
